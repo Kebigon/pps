@@ -1,0 +1,56 @@
+{{#layout}}
+
+<form action="/rss/edit/add" method="post">
+	<div class="form-row">
+		<div class="col">
+			<input type="text" class="form-control" name="url" placeholder="URL" />
+		</div>
+		<div class="col">
+			<input type="text" class="form-control" name="tags" placeholder="Tags" />
+		</div>
+		<div class="col">
+			<button type="submit" class="btn btn-primary">Add</button>
+		</div>
+	</div>
+</form>
+
+
+<a href="export" class="btn btn-success">Export</button>
+
+<form action="/rss/edit" method="delete">
+	<button type="submit" class="btn btn-danger">Delete All</button>
+</form>
+
+<table class="table table-striped table-sm">
+	<thead>
+		<tr>
+			<th scope="col">ID</th>
+			<th scope="col">Name</th>
+			<th scope="col">URL</th>
+			<th scope="col">Tags</th>
+			<th scope="col">Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#feeds}}
+			<tr>
+				<th scope="row">{{id}}</th>
+				<td>{{name}}</td>
+				<td>{{url}}</td>
+				<td>
+					{{#tags}}
+						{{name}}
+					{{/tags}}
+				</td>
+				<td>
+					<form action="/rss/edit/{{id}}" method="delete">
+						<button type="submit" class="btn btn-danger">Delete</button>
+					</form>
+				</td>
+			</tr>
+		{{/feeds}}
+	</tbody>
+</table>
+
+{{/layout}}
+{{>layout}}

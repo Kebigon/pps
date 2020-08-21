@@ -1,0 +1,39 @@
+{{#layout}}
+
+<a href="/rss/edit">Edit</a>
+
+
+<div>
+	Tags: <a href="/rss">All</a>
+{{#tags}}
+	<a href="/rss?tag={{name}}"><span style="background-color: #{{hexBackgroundColor}}; color: #{{hexForegroundColor}}">{{name}}</span></a>
+{{/tags}}
+</div>
+
+<table class="table table-striped table-sm">
+	<thead>
+		<tr>
+			<th scope="col">Published</th>
+			<th scope="col">Author</th>
+			<th scope="col">Title</th>
+			<th scope="col">Tags</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#entries}}
+			<tr>
+				<td>{{publishedDate}}</td>
+				<td>{{author}}</td>
+				<td><a href="{{link}}">{{title}}</a></td>
+				<td>
+					{{#categories}}
+						<span style="background-color: #{{hexBackgroundColor}}; color: #{{hexForegroundColor}}">{{name}}</span>
+					{{/categories}}
+				</td>
+			</tr>
+		{{/entries}}
+	</tbody>
+</table>
+
+{{/layout}}
+{{>layout}}

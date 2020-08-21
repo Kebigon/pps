@@ -1,0 +1,30 @@
+{{#layout}}
+
+<div>
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <input type="submit" />
+</form>
+</div>
+
+<table class="table table-striped table-sm">
+	<thead>
+		<tr>
+			<th scope="col">File</th>
+			<th scope="col">Content-type</th>
+			<th scope="col">Downloaded</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#files}}
+			<tr>
+				<td><a href="/file-drop/download/{{id}}">{{name}}</td>
+				<td>{{contentType}}</td>
+				<td>{{downloaded}}</td>
+			</tr>
+		{{/files}}
+	</tbody>
+</table>
+
+{{/layout}}
+{{>layout}}
