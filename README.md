@@ -1,4 +1,4 @@
-# Pretty private system
+# Private personal system
 
 Another work in progress project, the goals are:
 * having fun :-)
