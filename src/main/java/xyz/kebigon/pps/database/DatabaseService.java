@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import javax.servlet.http.HttpSession;
-
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
@@ -19,14 +17,14 @@ public class DatabaseService
 	@Value("${database.private.url}")
 	private String databaseUrl;
 
+	private String databaseKey = null;
 	private boolean migrate = true;
 
-	public Connection getConnection(HttpSession session) throws SQLException
+	public Connection getConnection() throws SQLException
 	{
-		final String key = (String) session.getAttribute("key");
-		if (key == null)
+		if (databaseKey == null)
 			throw new InvalidEncryptionKeyException();
-		return getConnection(key);
+		return getConnection(databaseKey);
 	}
 
 	private Connection getConnection(String key)
@@ -35,7 +33,8 @@ public class DatabaseService
 		try
 		{
 			connection = DriverManager.getConnection(databaseUrl + key);
-		} catch (final SQLException e)
+		}
+		catch (final SQLException e)
 		{
 			throw new InvalidEncryptionKeyException();
 		}
@@ -51,6 +50,11 @@ public class DatabaseService
 		}
 
 		return connection;
+	}
+
+	public void setDatabaseKey(String databaseKey)
+	{
+		this.databaseKey = databaseKey;
 	}
 
 	public boolean checkDatabaseKey(String key)

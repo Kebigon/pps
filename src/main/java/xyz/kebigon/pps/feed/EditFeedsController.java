@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,11 +41,11 @@ public class EditFeedsController
 	private FeedClient feedClient;
 
 	@GetMapping
-	public ModelAndView editFeeds(HttpSession session) throws SQLException
+	public ModelAndView editFeeds() throws SQLException
 	{
 		final Map<String, Object> model = new HashMap<String, Object>();
 
-		try (Connection connection = database.getConnection(session))
+		try (Connection connection = database.getConnection())
 		{
 			final List<Feed> feeds = feedsRepository.findAll(connection);
 			for (final Feed feed : feeds)
@@ -58,11 +57,11 @@ public class EditFeedsController
 	}
 
 	@PostMapping("/add")
-	public RedirectView addRSSFeed(@RequestParam String url, @RequestParam String tags, HttpSession session) throws SQLException
+	public RedirectView addRSSFeed(@RequestParam String url, @RequestParam String tags) throws SQLException
 	{
 		final String name = feedClient.getFeed(url, null).getTitle();
 
-		try (Connection connection = database.getConnection(session))
+		try (Connection connection = database.getConnection())
 		{
 			final int feedId = feedsRepository.save(connection, name, url);
 
@@ -78,9 +77,9 @@ public class EditFeedsController
 	}
 
 	@DeleteMapping
-	public RedirectView deleteAll(HttpSession session) throws SQLException
+	public RedirectView deleteAll() throws SQLException
 	{
-		try (Connection connection = database.getConnection(session))
+		try (Connection connection = database.getConnection())
 		{
 			feedsRepository.deleteAll(connection);
 		}
@@ -89,9 +88,9 @@ public class EditFeedsController
 	}
 
 	@DeleteMapping("/{id}")
-	public RedirectView deleteById(@PathVariable int id, HttpSession session) throws SQLException
+	public RedirectView deleteById(@PathVariable int id) throws SQLException
 	{
-		try (Connection connection = database.getConnection(session))
+		try (Connection connection = database.getConnection())
 		{
 			feedsRepository.deleteById(connection, id);
 		}
@@ -100,9 +99,9 @@ public class EditFeedsController
 	}
 
 	@GetMapping("/export")
-	public RedirectView export(HttpSession session, HttpServletResponse response) throws SQLException, IOException
+	public RedirectView export(HttpServletResponse response) throws SQLException, IOException
 	{
-		try (Connection connection = database.getConnection(session))
+		try (Connection connection = database.getConnection())
 		{
 			response.setContentType("text/tab-separated-values");
 			response.addHeader("Content-Disposition", "attachment; filename=feeds.tsv");

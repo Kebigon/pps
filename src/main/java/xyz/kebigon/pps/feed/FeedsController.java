@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,9 +53,9 @@ public class FeedsController
 	}
 
 	@GetMapping
-	public ModelAndView RSSFeeds(@RequestParam(required = false) String tag, HttpSession session) throws SQLException
+	public ModelAndView RSSFeeds(@RequestParam(required = false) String tag) throws SQLException
 	{
-		try (final Connection connection = database.getConnection(session))
+		try (final Connection connection = database.getConnection())
 		{
 			final Collection<Feed> feeds = tag != null ? getFeeds(tag, connection) : getFeeds(connection);
 			final SyndEntry[] entries = feeds.stream().flatMap(feed -> client.getFeed(feed.getUrl(), feed.getTags()).getEntries().stream())

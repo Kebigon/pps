@@ -1,9 +1,5 @@
 package xyz.kebigon.pps.database;
 
-import java.sql.SQLException;
-
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,18 +18,18 @@ public class DatabaseKeyController
 	private DatabaseService database;
 
 	@GetMapping
-	public String displayArticle(HttpSession session) throws SQLException
+	public String displayArticle()
 	{
 		return "key";
 	}
 
 	@PostMapping
-	public RedirectView configureDatabaseKey(@RequestParam String key, HttpSession session)
+	public RedirectView configureDatabaseKey(@RequestParam String key)
 	{
 		if (key == null || !database.checkDatabaseKey(key))
 			throw new InvalidEncryptionKeyException();
 
-		session.setAttribute("key", key);
+		database.setDatabaseKey(key);
 		return new RedirectView("/");
 	}
 }
